@@ -1,11 +1,11 @@
 package guice_example;
 
-import guice_example.api.ApiConfig;
+import guice_example.api.ApiModule;
+import guice_example.api.PersistenceModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 import javax.servlet.annotation.WebListener;
 
@@ -13,13 +13,9 @@ import javax.servlet.annotation.WebListener;
 public class ServletListener extends GuiceServletContextListener {
     @Override
     protected Injector getInjector() {
-        return Guice.createInjector(new ServletModule() {
-            @Override
-            protected void configureServlets() {
-                bind(GuiceContainer.class);
-                new ApiConfig().getClasses().forEach(resource -> bind(resource));
-                serve("/*").with(GuiceContainer.class);
-            }
-        });
+        ServletModule api = new ApiModule();
+        PersistenceModule persistence = new PersistenceModule();
+
+        return Guice.createInjector(api, persistence);
     }
 }
