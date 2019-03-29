@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = 11
+
+repositories {
+    jcenter()
+}
+
+ext {
+    guiceVersion = '4.2.2'
+    jettyVersion = '9.4.15.v20190215'
+}
+
+dependencies {
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    compile group: 'javax.activation', name: 'javax.activation-api', version: '1.2.0'
+
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: jettyVersion
+    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: jettyVersion
+
+    compile group: 'com.google.inject', name: 'guice', version: guiceVersion
+    compile group: 'com.google.inject.extensions', name: 'guice-servlet', version: guiceVersion
+
+    compile group: 'com.sun.jersey.contribs', name: 'jersey-guice', version: '1.19.4'
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version: '2.28'
+    compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
+}
+
+task run(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'guice_example.Run'
+}
