@@ -15,7 +15,7 @@ public class AccountService {
         account.setName("John Doe");
         entityManager.getTransaction().begin();
         entityManager.persist(account);
-        entityManager.flush();
+        entityManager.getTransaction().commit();
 
         return entityManager.createNamedQuery("Account.all").getResultList();
     }
